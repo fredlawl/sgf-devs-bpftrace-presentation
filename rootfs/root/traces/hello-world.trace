@@ -1,0 +1,5 @@
+#!/usr/bin/env bpftrace
+
+BEGIN {
+	printf("hello, world");
+}

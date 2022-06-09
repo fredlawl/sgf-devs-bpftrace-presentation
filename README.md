@@ -5,23 +5,39 @@ eBPF programs a little bit easier across operating systems.
 
 ## Project Setup
 
-### Dependencies (TODO)
+### Dependencies
+
+1. make
+2. qemu
+3. Docker ([install instructions](https://docs.docker.com/get-docker/))
 
 #### Linux
 
+```sh
+apt-get install make qemu-system-x86
+```
+
 #### MacOS (Intel)
 
-#### Windows
+```sh
+brew install make qemu
+```
+
+#### Windows (TODO)
 
 ### Compile & Launch VM
 
 > WARN: This can take a long time, but subsequent runs are much faster.
 
 ```sh
-$ make run
+$ make run (for Linux)
+$ make run-mac
+$ make run-windows
 ```
 
 **Username/Password login**: root/1234
+
+To exit QEMU VM, `ctrl + a` then press `c`, then type `quit` and press enter.
 
 ### Configuration
 
@@ -36,4 +52,4 @@ Add your *.bash_profile* etc... to *./rootfs/root*.
 
 **How can I add and persist my favorite development tools between builds?**
 
-Add them to the "# Configure rootfs and add tools" section in *build-fs.sh*.
+Add them to the "# Configure rootfs and add tools" section in *build-scripts/build-fs.sh*.

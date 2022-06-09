@@ -6,7 +6,10 @@ ENV KERNEL_VERSION=$KERNEL_VERSION
 ARG OUT_DIR
 ENV OUT_DIR=$OUT_DIR
 
-WORKDIR /build
+ARG BUILD_VOLUME
+ENV BUILD_VOLUME=$BUILD_VOLUME
+
+WORKDIR /root
 
 RUN apt-get update && \
     apt-get install -y \
@@ -25,8 +28,9 @@ RUN apt-get update && \
 	libguestfs-tools \
 	debootstrap \
 	dwarves \
-	rsync
+	rsync \
+    fakeroot \
+    fakechroot
 
-COPY build-kernel.sh .
-COPY build-fs.sh .
-COPY build-disk.sh .
+COPY build-scripts/*.sh .
+COPY rootfs ./rootfs

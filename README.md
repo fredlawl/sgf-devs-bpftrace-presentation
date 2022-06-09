@@ -18,7 +18,9 @@ eBPF programs a little bit easier across operating systems.
 > WARN: This can take a long time, but subsequent runs are much faster.
 
 ```sh
-$ make run
+$ make run (for Linux)
+$ make run-mac
+$ make run-windows
 ```
 
 **Username/Password login**: root/1234

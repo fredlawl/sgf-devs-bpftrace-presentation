@@ -23,7 +23,13 @@ apt-get install make qemu-system-x86
 brew install make qemu
 ```
 
-#### Windows (TODO)
+#### Windows
+
+WSL2 is the preferred approach
+
+```sh
+apt-get install make qemu-system-x86
+```
 
 ### Compile & Launch VM
 

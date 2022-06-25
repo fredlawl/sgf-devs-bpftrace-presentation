@@ -20,6 +20,10 @@ run: all
 run-mac: all
 	$(QEMU)
 
+.PHONY: run-windows
+run-windows: all
+	$(QEMU)
+
 .PHONY: clean
 clean:
 	sudo rm -rf ${LOCAL_OUT_DIR}

@@ -1,0 +1,48 @@
+#!/usr/bin/env bpftrace
+
+BEGIN {
+    printf("Tracing leaks... Hit Ctrl-C to end.\n");
+}
+
+uretprobe:/usr/lib/x86_64-linux-gnu/libc-2.31.so:malloc {
+    // malloc returns an address on success.
+    // Map the return address to the process name and id.
+    @progs[retval] = (comm, pid);
+
+    // Count allocations for process
+    @comms[comm, pid] += 1;
+}
+
+uprobe:/usr/lib/x86_64-linux-gnu/libc-2.31.so:free {
+    // Free takes the mem address as arg0.
+    // Therefore get the associated process name
+    // and id, then subtract 1.
+    @comms[@progs[arg0].0, @progs[arg0].1] -= 1;
+
+    // Clears this entry for the memory address
+    delete(@progs[arg0]);
+}
+
+// This program only shows counts when the program
+// ends. Instead, periodically display results
+// to get an idea of memory growth over time.
+// Exercise (easy): Write a hook that periodically
+//           print(@comms, 100);
+// Hint: Find an interval hook from the bpftrace reference
+
+// This program has the problem such that free()
+// does not get called when the process ends.
+// Therefore, we need a way to clear out results
+// we don't care about. We only care about long
+// running applications.
+// Exercise (hard): Write a hook that clears @comms[comm, pid]
+//           when the process terminates.
+// Hint: Find a kernel tracepoint that gets called when a task terminates.
+
+END {
+    print(@comms, 100);
+
+    // Clear the maps
+    clear(@comms);
+    clear(@progs);
+}

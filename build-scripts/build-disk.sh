@@ -10,7 +10,7 @@ cd $BUILD_VOLUME
 rsync -avh --delete $USER_ROOTFS/root/ $ROOTFS/root
 
 # Create the disk
-qemu-img create disk.img 1024M
+qemu-img create disk.img 4096M
 mkfs -t ext4 disk.img
 mount -o loop disk.img /mnt
 cp -ax $ROOTFS/* /mnt
